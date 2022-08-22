@@ -1,23 +1,52 @@
+{{!-- HIDDEN INPUTS --}}
+<input type="hidden" id="perdidaGanada" value={{perdidaGanada}} />
 
-<main>
+<input type="hidden" id="allAvgsArr" value={{allAvgsArr}}>
 
-  {{!-- PROMEDIOS EN TODAS LAS MATERIAS --}}
+{{!-- INFO --}}
+<div class="w-50 p-3 d-flex flex-row m-auto justify-content-around">
+  <div class="w-100 card border-dark mb-3" style="max-width: 18rem;">
+    <div class="card-body text-dark text-center">
+      <h5 class="card-title">Promedio</h5>
+      <p class="card-text">{{avg}}</p>
+    </div>
+  </div>
+  <div class="w-100 card border-dark mb-3" style="max-width: 18rem;">
+    <div class="card-body text-dark text-center">
+      <h5 class="card-title">Porcentaje De Beca</h5>
+      <p class="card-text">{{cantidadBecaAct}}%</p>
+    </div>
+  </div>
+</div>
+
+<div class="w-50 p-3 d-flex flex-row m-auto justify-content-around">
+  <div class="w-100 card border-dark mb-3" style="max-width: 18rem;">
+    <div class="card-body text-dark text-center">
+      <h5 class="card-title">Estado</h5>
+      <p class="card-text">{{resBecado}}</p>
+    </div>
+  </div>
+  <div class="w-100 card border-dark mb-3" style="max-width: 18rem;">
+    <div class="card-body text-dark text-center">
+      <h5 class="card-title">Racha Con Beca</h5>
+      <p class="card-text">{{racha}}</p>
+    </div>
+  </div>
+</div>
+
+{{!-- CHARTS --}}
+<main class="w-50 p-3 d-flex flex-column m-auto">
+
+  {{! PROMEDIOS EN TODAS LAS MATERIAS }}
   <canvas id="promedios" width="400" height="400"></canvas>
 
-  {{!-- ESTADO DE LA BECA --}}
+  {{! ESTADO DE LA BECA }}
   <canvas id="estado" width="400" height="400"></canvas>
 
-  {{!-- PROMEDIO ACTUAL --}}
-  <canvas id="promedio" width="400" height="400"></canvas>
-
-  {{!-- CANTIDAD DE MESES CON BECA O SIN ELLA --}}
+  {{! CANTIDAD DE MESES CON BECA O SIN ELLA }}
   <canvas id="meses" width="400" height="400"></canvas>
 
-  {{!-- PROCENTAJE DE LA BECA ACTUAL --}}
-  <canvas id="becaActual" width="400" height="400"></canvas>
-
-  {{!-- DESEMPEÑO DE TAREAS, QUIZZES, EXÁMENES --}}
+  {{! DESEMPEÑO DE TAREAS, QUIZZES, EXÁMENES }}
   <canvas id="desempeño" width="400" height="400"></canvas>
 
 </main>
-

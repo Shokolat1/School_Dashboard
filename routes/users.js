@@ -7,10 +7,6 @@ var router = express.Router();
 //   res.send('respond with a resource');
 // });
 
-// Ver el dashboard
-router.get('/charts', async function(req, res, next) {
-  res.render('charts', { title: "Dashboard Escolar" });
-});
 
 // RUTAS POST -----------------------------------------------------------
 
