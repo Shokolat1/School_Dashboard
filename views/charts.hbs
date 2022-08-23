@@ -1,52 +1,64 @@
-{{!-- HIDDEN INPUTS --}}
-<input type="hidden" id="perdidaGanada" value={{perdidaGanada}} />
+<div class="info">
+  <a href="/logout">
+    <button type="button" class="btn btn-outline-danger btn-lg logout">Cerrar Sesión</button>
+  </a>
 
-<input type="hidden" id="allAvgsArr" value={{allAvgsArr}}>
+  {{!-- HIDDEN INPUTS --}}
+  <input type="hidden" id="perdidaGanada" value={{perdidaGanada}} />
 
-{{!-- INFO --}}
-<div class="w-50 p-3 d-flex flex-row m-auto justify-content-around">
-  <div class="w-100 card border-dark mb-3" style="max-width: 18rem;">
-    <div class="card-body text-dark text-center">
-      <h5 class="card-title">Promedio</h5>
-      <p class="card-text">{{avg}}</p>
+  <input type="hidden" id="allAvgsArr" value={{allAvgsArr}}>
+  <input type="hidden" id="quiz" value={{quiz}}>
+  <input type="hidden" id="exam" value={{exam}}>
+  <input type="hidden" id="homework" value={{homework}}>
+
+  {{!-- INFO --}}
+  <div class="w-50 p-3 d-flex flex-row m-auto justify-content-around">
+    <div class="w-100 card border-dark mb-3" style="max-width: 18rem;">
+      <div class="card-body text-dark text-center">
+        <h5 class="card-title">Promedio General</h5>
+        <p class="card-text">{{avg}}</p>
+      </div>
+    </div>
+    <div class="w-100 card border-dark mb-3" style="max-width: 18rem;">
+      <div class="card-body text-dark text-center">
+        <h5 class="card-title">Porcentaje Actual de Beca</h5>
+        <p class="card-text">{{cantidadBecaAct}}%</p>
+      </div>
     </div>
   </div>
-  <div class="w-100 card border-dark mb-3" style="max-width: 18rem;">
-    <div class="card-body text-dark text-center">
-      <h5 class="card-title">Porcentaje De Beca</h5>
-      <p class="card-text">{{cantidadBecaAct}}%</p>
+
+  <div class="w-50 p-3 d-flex flex-row m-auto justify-content-around">
+    <div class="w-100 card border-dark mb-3" style="max-width: 18rem;">
+      <div class="card-body text-dark text-center">
+        <h5 class="card-title">Estado de la Beca</h5>
+        <p class="card-text">{{resBecado}}</p>
+      </div>
+    </div>
+    <div class="w-100 card border-dark mb-3" style="max-width: 18rem;">
+      <div class="card-body text-dark text-center">
+        <h5 class="card-title">Racha Más Larga Con Beca</h5>
+        <p class="card-text">{{racha}}</p>
+      </div>
     </div>
   </div>
+
+  {{!-- CHARTS --}}
+  <main class="w-25 p-3 d-flex flex-row justify-content-around m-auto">
+
+    {{! PROMEDIOS EN TODAS LAS MATERIAS }}
+    <canvas class="m-2 p-2" style="background: white no-repeat fixed center; border-radius:10px;" id="promedios"
+      width="100" height="100"></canvas>
+
+    {{! ESTADO DE LA BECA }}
+    <canvas class="m-2 p-2" style="background: white no-repeat fixed center; border-radius:10px;" id="estado"
+      width="100" height="100"></canvas>
+
+    {{! CANTIDAD DE MESES CON BECA O SIN ELLA }}
+    <canvas class="m-2 p-2" style="background: white no-repeat fixed center; border-radius:10px;" id="meses" width="100"
+      height="100"></canvas>
+
+    {{! DESEMPEÑO DE TAREAS, QUIZZES, EXÁMENES }}
+    <canvas class="m-2 p-2" id="desempeño" width="100" height="100"></canvas>
+
+  </main>
 </div>
-
-<div class="w-50 p-3 d-flex flex-row m-auto justify-content-around">
-  <div class="w-100 card border-dark mb-3" style="max-width: 18rem;">
-    <div class="card-body text-dark text-center">
-      <h5 class="card-title">Estado</h5>
-      <p class="card-text">{{resBecado}}</p>
-    </div>
-  </div>
-  <div class="w-100 card border-dark mb-3" style="max-width: 18rem;">
-    <div class="card-body text-dark text-center">
-      <h5 class="card-title">Racha Con Beca</h5>
-      <p class="card-text">{{racha}}</p>
-    </div>
-  </div>
-</div>
-
-{{!-- CHARTS --}}
-<main class="w-50 p-3 d-flex flex-column m-auto">
-
-  {{! PROMEDIOS EN TODAS LAS MATERIAS }}
-  <canvas id="promedios" width="400" height="400"></canvas>
-
-  {{! ESTADO DE LA BECA }}
-  <canvas id="estado" width="400" height="400"></canvas>
-
-  {{! CANTIDAD DE MESES CON BECA O SIN ELLA }}
-  <canvas id="meses" width="400" height="400"></canvas>
-
-  {{! DESEMPEÑO DE TAREAS, QUIZZES, EXÁMENES }}
-  <canvas id="desempeño" width="400" height="400"></canvas>
-
-</main>

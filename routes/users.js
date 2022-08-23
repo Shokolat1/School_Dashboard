@@ -1,11 +1,21 @@
 var express = require('express');
 var router = express.Router();
 
+// Checar si el usuario está autenticado con usuario y contraseña
+const isAuth = (req, res, next) => {
+    if (req.isAuthenticated()) {
+      return next();
+    } else {
+      res.redirect("/");
+    }
+  };
+
 // RUTAS GET -----------------------------------------------------------
-/* GET users listing. */
-// router.get('/', function(req, res, next) {
-//   res.send('respond with a resource');
-// });
+/* PÁGINA INICIAL ADMIN */
+router.get('/', isAuth, function(req, res, next) {
+    if(req.user.type == "student") res.redirect(`/dashboard?user=${req.user.student}`)
+    else res.send('Hola Admin');
+});
 
 
 // RUTAS POST -----------------------------------------------------------

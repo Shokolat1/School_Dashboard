@@ -153,17 +153,45 @@ const becaData = async (student_id) => {
   let racha = 0;
   let cantidadBecaAct = 0;
   let resBecado = "";
-
+  let allDesempeño = [];
+  
   // Obtener todos los documentos del estudiante en cuestón
   const res = await getStudent(student_id);
-  console.log(res)
 
   // Iterar a través del arreglo obtenido
   for (const data of res) {
+    // SACAR PROMEDIO DE TAREAS Y PASAR QUIZ Y EXAMEN AL ARRAY allDesempeño
+    let tareas = Array.from(data.scores);
+    tareas.shift();
+    tareas.shift();
+    let tareasAvg = 0;
+    for (const data of tareas) {
+      tareasAvg += data.score;
+    }
+    tareasAvg /= 2;
+
+    let desempeño = Array.from(data.scores);
+    desempeño.pop();
+    desempeño.pop();
+    desempeño.push({ type: "homework", score: tareasAvg });
+
+    allDesempeño.push(desempeño);
+
     // Sumar todos los promedios y hacer un promedio general de eso después del ciclo
     avg += data.average;
     allAvgsArr.push(data.average);
   }
+
+  allDesempeño = allDesempeño.flat(1);
+  const homework = allDesempeño
+    .filter((el) => el.type == "homework")
+    .map((el) => el.score);
+  const quiz = allDesempeño
+    .filter((el) => el.type == "quiz")
+    .map((el) => el.score);
+  const exam = allDesempeño
+    .filter((el) => el.type == "exam")
+    .map((el) => el.score);
 
   avg /= res.length;
   avg = Math.round(avg);
@@ -213,7 +241,7 @@ const becaData = async (student_id) => {
     resBecado = "Sin Beca!"
   }
 
-  let obj = { avg, racha, perdidaGanada, cantidadBecaAct, resBecado, allAvgsArr }
+  let obj = { avg, racha, perdidaGanada, cantidadBecaAct, resBecado, allAvgsArr, homework, quiz, exam }
   return obj
 }
 
@@ -288,10 +316,13 @@ const calculateAverage = async (student_id, class_id) => {
 // CHECAR SI UN USUARIO EXISTE
 const checkUserExistence = async (user) => {
   const { collection } = await connectToCuentas(collName2);
-  let res = await collection.findOne({ student_id: user });
+  let res = await collection.findOne({ student: user });
 
   if (!res) throw "ERROR: Usuario no existe"
-  else return { res, collection };
+  else{
+    const obj = { res, collection };
+    return obj
+  }
 }
 
 // DAR DE ALTA USUARIOS
