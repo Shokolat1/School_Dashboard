@@ -1,22 +1,26 @@
-<div class="form"></div>
+<div class="bgAdmin"></div>
 
 {{>drawer}}
 
-<h1 class="titulo">Desactivar cuentas</h1>
+<br>
 
-<div class="tab-pane fade active show" id="profile" role="tabpanel">
-    <form data-bitwarden-watching="1" action="/users/deactivate" method="post">
-        <fieldset>
-            <div class="form-group p-2">
-                <label for="debaja" class="form-label mt-4">Número de ID
-                </label>
-                <input type="text" class="form-control" id="debaja" aria-describedby="emailHelp"
-                    placeholder="ID del estudiante" />
-                <small id="emailHelp" class="form-text text-muted">No compartas el
-                    Número de ID
-                </small>
-            </div>
-            <button type="submit" class="btn btn-danger">Dar De Baja</button>
-        </fieldset>
-    </form>
+<h1 class="titulo">Desactivar Cuentas de Usuarios</h1>
+
+<div class="container">
+    <div class="form">
+        <form data-bitwarden-watching="1" action="/users/desactivar" method="post">
+            <fieldset>
+                <div class="form-group p-2">
+                    <label for="dealta" class="form-label">Número de ID
+                    </label>
+                    <input type="text" class="form-control" id="dealta" aria-describedby="emailHelp"
+                        placeholder="ID del estudiante" name="student_id" />
+                </div>
+                <br>
+                <center>
+                    <button type="submit" class="btn btn-danger">Desactivar Cuenta</button>
+                </center>
+            </fieldset>
+        </form>
+    </div>
 </div>

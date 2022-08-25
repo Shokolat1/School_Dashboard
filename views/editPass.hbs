@@ -1,3 +1,34 @@
+<div class="bgAdmin"></div>
+
 {{>drawer}}
 
-<h1>Editar Contraseñas</h1>
+<br>
+
+<h1 class="titulo">Editar Contraseñas de Usuarios</h1>
+
+<div class="container">
+    <div class="form">
+        <form data-bitwarden-watching="1" action="/users/editPass" method="post">
+            <fieldset>
+                <div class="form-group p-2">
+                    <label for="dealta" class="form-label">Número de ID
+                    </label>
+                    <input type="text" class="form-control" id="dealta" aria-describedby="emailHelp"
+                        placeholder="ID del estudiante" name="student_id" />
+                    <label for="dealta" class="form- mt-4">Nueva Contraseña
+                    </label>
+                    <input type="text" class="form-control" id="dealta" aria-describedby="emailHelp"
+                        placeholder="Inserte nueva contraseña" name="newPass" />
+                    <label for="dealta" class="form-label mt-4">Confirmación
+                    </label>
+                    <input type="text" class="form-control" id="dealta" aria-describedby="emailHelp"
+                        placeholder="Confirme la nueva contraseña" name="confPass"/>
+                </div>
+                <br>
+                <center>
+                    <button type="submit" class="btn btn-info">Cambiar Contraseña</button>
+                </center>
+            </fieldset>
+        </form>
+    </div>
+</div>

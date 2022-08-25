@@ -333,25 +333,25 @@ const newStudent = async (user) => {
   if (!res) {
     var hashpass = await bcrypt.hash(user.pass, 10);
     await collection.insertOne({ student: user.student_id, password: hashpass, type: "student", state: "activo" });
-
+  
     let res2 = await collection.findOne({ student: user.student_id });
     return res2;
   }
-
+  
   throw "ERROR: Usuario ya existe"
 }
 
 // CAMBIAR CONTRASEÑA DE USUARIOS
 const changePass = async (user) => {
-  checkUserExistence(user)
+  checkUserExistence(user.student_id)
     .then(async ({ res, collection }) => {
       if (user.newPass !== user.confPass) throw "ERROR: Los campos de contraseña no coinciden"
 
       let resComparar = await bcrypt.compare(user.newPass, res.password)
       if (resComparar) throw "ERROR: La nueva contraseña y la actual son iguales"
 
-      var hashpass = await bcrypt.hash(user.pass, 10);
-      await collection.findOneAndUpdate({ student_id: res.student_id }, { $set: { password: hashpass } });
+      var hashpass = await bcrypt.hash(user.newPass, 10);
+      await collection.findOneAndUpdate({ student: res.student }, { $set: { password: hashpass } });
     })
     .catch((err) => {
       throw err
@@ -360,9 +360,10 @@ const changePass = async (user) => {
 
 // DESACTIVAR USUARIOS
 const deactivateStudent = async (user) => {
-  checkUserExistence(user)
-    .then(async (res) => {
-      await collection.findOneAndUpdate({ student_id: res.student_id }, { $set: { state: "inactivo" } });
+  await checkUserExistence(user)
+    .then(async ({ res, collection }) => {
+      if(res.state == "inactivo") throw "Usuario ya desactivado"
+      await collection.findOneAndUpdate({ student: res.student }, { $set: { state: "inactivo" } });
     })
     .catch((err) => {
       throw err;
