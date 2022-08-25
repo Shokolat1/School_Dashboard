@@ -31,8 +31,11 @@ const estadosDeBeca = allAvgsArr.map((avg) => {
   return cantidadBecaAct;
 });
 const conBecaSinBeca = ["Con Beca", "Sin Beca"];
-const conBecaSinBecaValues = [perdidaGanada.filter((el) => el == "Ganada").length, perdidaGanada.filter((el) => el == "Perdida").length];
-const evaluaciones = ["Exámen", "Quiz", "Tareas"]; 
+const conBecaSinBecaValues = [
+  perdidaGanada.filter((el) => el == "Ganada").length,
+  perdidaGanada.filter((el) => el == "Perdida").length,
+];
+const evaluaciones = ["Exámen", "Quiz", "Tareas"];
 const evaluacionesValues = [91, 95, 89];
 
 // PROMEDIOS EN TODAS LAS MATERIAS
@@ -52,7 +55,7 @@ const promediosChart = new Chart(promediosCtx, {
   },
   options: {
     responsive: true,
-    plugins: { 
+    plugins: {
       legend: {
         position: "top",
       },
@@ -106,7 +109,7 @@ const mesesChart = new Chart(mesesCtx, {
       },
     ],
   },
-  options: { 
+  options: {
     responsive: true,
     plugins: {
       legend: {
@@ -122,12 +125,12 @@ const mesesChart = new Chart(mesesCtx, {
 
 // DESEMPEÑO DE TAREAS, QUIZZES, EXÁMENES
 const desempeñoChart = new Chart(desempeñoCtx, {
-  type: "bar",
+  type: "line",
   data: {
     labels: materias,
     datasets: [
       {
-        label: "Exámen", 
+        label: "Exámen",
         data: exam,
         backgroundColor: ["rgba(54, 240, 235, 0.8)"],
         borderColor: ["rgba(54, 240, 235, 0.5)"],
@@ -141,7 +144,7 @@ const desempeñoChart = new Chart(desempeñoCtx, {
         borderWidth: 4,
       },
       {
-        label: "Tareas", 
+        label: "Tareas",
         data: homework,
         backgroundColor: ["rgba(54, 240, 1, 0.8)"],
         borderColor: ["rgba(54, 240, 1, 0.5)"],
