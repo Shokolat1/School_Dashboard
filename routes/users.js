@@ -15,7 +15,19 @@ const isAuth = (req, res, next) => {
 router.get("/", isAuth, function (req, res, next) {
   if (req.user.type == "student")
     res.redirect(`/dashboard?user=${req.user.student}`);
-  else res.render("admin", { title: "ADMIN" });
+  else res.render("newUser", { title: "Dar de Alta - ADMIN" });
+});
+
+router.get("/editPass", isAuth, function(req, res, next) {
+  if(req.user.type == "student")
+    res.redirect(`/dashboard?user=${req.user.student}`)
+  else res.render("editPass", { title: "Editar Contraseña - ADMIN" })
+});
+
+router.get("/deactivate", isAuth, function(req, res, next) {
+  if(req.user.type == "student")
+    res.redirect(`/dashboard?user=${req.user.student}`)
+  else res.render("desactivar", { title: "Desactiar Cuenta - ADMIN" })
 });
 
 // RUTAS POST -----------------------------------------------------------

@@ -81,7 +81,7 @@ router.get('/dashboard', isAuth, async function (req, res, next) {
   else {
     await becaData(req.query.user)
       .then((obj) => {
-        console.log(obj)
+        // console.log(obj)
 
         // SE MANDA AL CLIENTE LA INFORMACION DEL ESTUDIANTE PARA QUE SE MUESTRE EN LA DASHBOARD
         res.render('charts', {
