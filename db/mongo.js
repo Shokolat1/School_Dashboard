@@ -95,52 +95,6 @@ const getStudent = async (student_id) => {
   return res;
 };
 
-// FIXME: INFO YA PUEDE OBTENERSE DE becaData
-// OBTENER PROMEDIO GENERAL
-// const avgGeneral = async (student_id) => {
-//   // Obtiene todos los documentos de un estudiante en forma de arreglo
-//   let res = getStudent(student_id);
-
-//   /* Agregar a una variable todos los promedios para sumarlos
-//     y hacer promedio general */
-//   let avgGeneral = 0
-//   for (const data of res) {
-//     avgGeneral += data.average
-//   }
-
-//   avgGeneral /= res.length
-//   avgGeneral = Math.round(avgGeneral)
-
-//   // Regresar promedio general
-//   return avgGeneral
-// }
-
-// FIXME: INFO YA PUEDE OBTENERSE DE becaData
-// CHECAR SI ESTUDIANTE TIENE BECA Y CUÁNTO PROMEDIO GENERAL TIENE
-// const checaBeca = async (student_id) => {
-//   let avg = 0;
-//   const res = await getStudent(student_id);
-
-//   for (const data of res) {
-//     avg += data.average;
-//   }
-
-//   avg /= res.length;
-//   avg = Math.round(avg)
-
-//   if (avg < 70) {
-//     return {
-//       res: "Sin Beca",
-//       average: avg
-//     }
-//   } else {
-//     return {
-//       res: "Becado",
-//       average: avg
-//     }
-//   }
-// }
-
 // CHECAR DATOS GENERALES DE BECA COMO PROMEDIO ACTUAL, RACHA DE MESES MÁS LARGA DONDE
 // MANTUVO BECA, CANTIDAD ACUAL DE BECA, Y EL CUÁNDO GANÓ BECA Y CUÁNDO LA PERDIÓ
 const becaData = async (student_id) => {
@@ -196,8 +150,6 @@ const becaData = async (student_id) => {
   avg /= res.length;
   avg = Math.round(avg);
 
-  console.log(avg)
-
   // Checar cuál es el promedio entre clases (calculada por acumulación) para ver si ahí ganó o perdió la beca
   for (let j = 1; j < allAvgsArr.length + 1; j++) {
     tempSumaAvgs += allAvgsArr[j - 1]
@@ -236,81 +188,14 @@ const becaData = async (student_id) => {
 
   // Checa si el estudiante anda becado o no
   if (cantidadBecaAct != 0) {
-    resBecado = "Con Beca!"
+    resBecado = "¡Con Beca!"
   } else {
-    resBecado = "Sin Beca!"
+    resBecado = "¡Sin Beca!"
   }
 
   let obj = { avg, racha, perdidaGanada, cantidadBecaAct, resBecado, allAvgsArr, homework, quiz, exam }
   return obj
 }
-
-// FIXME: ESTO YA ES EN CASO DE QUE SE AGREGUE OTRA CLASE AL ALUMNO
-// CALCULAR EL PROMEDIO DE UNA CLASE NUEVA
-const calculateAverage = async (student_id, class_id) => {
-  const { collection } = await connectToCalis(collName);
-
-  const res = await collection.findOne({
-    student_id,
-    class_id,
-  });
-
-  const scoresArr = res.scores;
-
-  let sumScores = 0;
-
-  for (const scoreObj of scoresArr) {
-    sumScores += scoreObj.score;
-  }
-
-  const average = sumScores / scoresArr.length;
-
-  return average;
-};
-
-// FIXME: JUNTAR MÉTODO CON OTROS PARA MODIFICAR TODOS LOS ATRIBUTOS; PARA DESPUÉS
-// AGREGAR CAMPO DE PROMEDIOS (ESTO ES PARA UN DOC A LA VEZ)
-// EJEMPLO -> await setAverage(0, 339);
-// const setClassData = async (student_id, class_id) => {
-//   const average = await calculateAverage(student_id, class_id);
-
-//   const { collection } = await connectToCalis(collName);
-
-//   await collection.insertOne({ student_id, class_id, average});
-// };
-
-// FIXME: ESTO ES PARA UN DOC A LA VEZ; SE PUEDE OBTENER DE becaData
-// SACAR EL PROCENTAJE DE BECA
-// const getPercentageBeca = async (student_id, class_id) => {
-//   const average = await calculateAverage(student_id, class_id);
-
-//   if (average < 70) return 0;
-
-//   if (average <= 79)
-//     return 10;
-//   else if (average <= 89)
-//     return 20;
-//   else if (average <= 99)
-//     return 30;
-//   else
-//     return 40;
-// };
-
-// FIXME: ESTO ES PARA UN ESTUDIANTE A LA VEZ; YA SE PUEDE OBTENER DE becaData
-// SACAR PROMEDIO GENERAL
-// const obtenerPromedioGeneral = async (student_id) => {
-//   const student = await getStudent(student_id);
-
-//   let sumAverage = 0;
-
-//   for (const data of student) {
-//     sumAverage += data.average;
-//   }
-
-//   const average = sumAverage / student.length;
-
-//   return average;
-// }
 
 // MÉTODOS PARA EL ADMIN ---------------------------------------------------------------------------------
 // CHECAR SI UN USUARIO EXISTE
@@ -380,7 +265,6 @@ module.exports = {
   connectToCuentas,
   initDatesAvgs,
   becaData,
-  calculateAverage,
   checkUserExistence,
   newStudent,
   changePass,

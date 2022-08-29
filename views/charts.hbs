@@ -2,7 +2,6 @@
   <a href="/logout">
     <button type="button" class="btn btn-danger btn-lg logout">Cerrar Sesión</button>
   </a>
-
   {{! HIDDEN INPUTS }}
   <input type="hidden" id="perdidaGanada" value={{perdidaGanada}} />
 
@@ -12,14 +11,14 @@
   <input type="hidden" id="homework" value={{homework}} />
 
   {{! INFO }}
-  <div class="w-50 p-3 d-flex flex-row m-auto justify-content-around">
-    <div class="w-100 card mb-3" style="max-width: 18rem;">
+  <div class="custom-info-container one">
+    <div class="w-100 card mb-3" >
       <div class="card-body text-dark text-center">
-        <h5 class="card-title" style="font-weight: bold;">Promedio General</h5>
+        <h5 class="custom-card-title card-title" style="font-weight: bold;">Promedio General</h5>
         <p class="card-text">{{avg}}</p>
       </div>
     </div>
-    <div class="w-100 card mb-3" style="max-width: 18rem;">
+    <div class="w-100 card mb-3">
       <div class="card-body text-dark text-center">
         <h5 class="card-title" style="font-weight: bold;">Porcentaje Actual de
           Beca</h5>
@@ -28,14 +27,14 @@
     </div>
   </div>
 
-  <div class="w-50 p-3 d-flex flex-row m-auto justify-content-around">
-    <div class="w-100 card mb-3" style="max-width: 18rem;">
+  <div class="custom-info-container">
+    <div class="w-100 card mb-3" >
       <div class="card-body text-dark text-center">
         <h5 class="card-title" style="font-weight: bold;">Estado de la Beca</h5>
         <p class="card-text">{{resBecado}}</p>
       </div>
     </div>
-    <div class="w-100 card mb-3" style="max-width: 18rem;">
+    <div class="w-100 card mb-3" >
       <div class="card-body text-dark text-center">
         <h5 class="card-title" style="font-weight: bold;">Racha Más Larga Con
           Beca</h5>
@@ -45,7 +44,7 @@
   </div>
 
   {{! CHARTS }}
-  <main class="w-25 p-3 d-flex flex-row justify-content-around m-auto">
+  <main class="charts-container">
 
     {{! PROMEDIOS EN TODAS LAS MATERIAS }}
     <canvas
