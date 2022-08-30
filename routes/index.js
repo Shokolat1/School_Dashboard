@@ -60,19 +60,7 @@ const isAuth = (req, res, next) => {
 // RUTAS GET -----------------------------------------------------------
 // Página Login
 router.get('/', async function (req, res, next) {
-  // await newStudent(req.body)
-  // await newStudent(student)
-  //   .then((response) => {
-  //     console.log(`Usuario agregado: ${response.student}`)
   res.render('index', { title: "Dashboard Escolar" });
-  // })
-  // .catch((err) => {
-  //   console.log(err)
-  //   // res.redirect("/")
-  // })
-  // .finally(() => {
-  //   client.close()
-  // })
 });
 
 // Ver el dashboard
@@ -81,8 +69,6 @@ router.get('/dashboard', isAuth, async function (req, res, next) {
   else {
     await becaData(req.query.user)
       .then((obj) => {
-        // console.log(obj)
-
         // SE MANDA AL CLIENTE LA INFORMACION DEL ESTUDIANTE PARA QUE SE MUESTRE EN LA DASHBOARD
         res.render('charts', {
           title: "Dashboard Escolar",

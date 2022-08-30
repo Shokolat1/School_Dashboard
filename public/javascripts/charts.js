@@ -10,6 +10,16 @@ exam = exam.split(",");
 let homework = document.getElementById("homework").value;
 homework = homework.split(",");
 
+const resizeUtils = function (context) {
+  var width = context.chart.width;
+  var size = Math.round(width / 16);
+
+  return {
+    weight: "bold",
+    size: size,
+  };
+}
+
 // CHARTS CONTEXT
 const promediosCtx = document.getElementById("promedios").getContext("2d");
 const estadoCtx = document.getElementById("estado").getContext("2d");
@@ -55,13 +65,29 @@ const promediosChart = new Chart(promediosCtx, {
   },
   options: {
     responsive: true,
+    scales: {
+      x: {
+        ticks: {
+          font: resizeUtils
+        },
+      },
+      y: {
+        ticks: {
+          font: resizeUtils
+        },
+      },
+    },
     plugins: {
       legend: {
         position: "top",
+        labels: {
+          font: resizeUtils,
+        }
       },
       title: {
         display: true,
         text: "Promedios (Clases)",
+        font: resizeUtils,
       },
     },
   },
@@ -84,13 +110,29 @@ const estadoChart = new Chart(estadoCtx, {
   },
   options: {
     responsive: true,
+    scales: {
+      x: {
+        ticks: {
+          font: resizeUtils
+        },
+      },
+      y: {
+        ticks: {
+          font: resizeUtils
+        },
+      },
+    },
     plugins: {
       legend: {
         position: "top",
+        labels: {
+          font: resizeUtils,
+        }
       },
       title: {
         display: true,
         text: "Estado de la beca (%)",
+        font: resizeUtils,
       },
     },
   },
@@ -111,13 +153,29 @@ const mesesChart = new Chart(mesesCtx, {
   },
   options: {
     responsive: true,
+    scales: {
+      x: {
+        ticks: {
+          font: resizeUtils
+        },
+      },
+      y: {
+        ticks: {
+          font: resizeUtils
+        },
+      },
+    },
     plugins: {
       legend: {
         position: "top",
+        labels: {
+          font: resizeUtils,
+        }
       },
       title: {
         display: true,
         text: "Estado de la beca (Meses)",
+        font: resizeUtils,
       },
     },
   },
@@ -154,13 +212,29 @@ const desempeñoChart = new Chart(desempeñoCtx, {
   },
   options: {
     responsive: true,
+    scales: {
+      x: {
+        ticks: {
+          font: resizeUtils
+        },
+      },
+      y: {
+        ticks: {
+          font: resizeUtils
+        },
+      },
+    },
     plugins: {
       legend: {
         position: "top",
+        labels: {
+          font: resizeUtils,
+        }
       },
       title: {
         display: true,
         text: "Desempeño en clase",
+        font: resizeUtils,
       },
     },
   },
