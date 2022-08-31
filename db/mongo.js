@@ -108,7 +108,7 @@ const becaData = async (student_id) => {
   let cantidadBecaAct = 0;
   let resBecado = "";
   let allDesempeño = [];
-  
+
   // Obtener todos los documentos del estudiante en cuestón
   const res = await getStudent(student_id);
 
@@ -203,8 +203,11 @@ const checkUserExistence = async (user) => {
   const { collection } = await connectToCuentas(collName2);
   let res = await collection.findOne({ student: user });
 
-  if (!res) throw "ERROR: Usuario no existe"
-  else{
+  if (!res) {
+    let obj = { err: "ERROR: Usuario no existe" }
+    return obj
+  }
+  else {
     const obj = { res, collection };
     return obj
   }
@@ -218,41 +221,39 @@ const newStudent = async (user) => {
   if (!res) {
     var hashpass = await bcrypt.hash(user.pass, 10);
     await collection.insertOne({ student: user.student_id, password: hashpass, type: "student", state: "activo" });
-  
+
     let res2 = await collection.findOne({ student: user.student_id });
     return res2;
   }
-  
+
   throw "ERROR: Usuario ya existe"
 }
 
 // CAMBIAR CONTRASEÑA DE USUARIOS
 const changePass = async (user) => {
-  checkUserExistence(user.student_id)
-    .then(async ({ res, collection }) => {
-      if (user.newPass !== user.confPass) throw "ERROR: Los campos de contraseña no coinciden"
+  const alumno = await checkUserExistence(user.student_id)
+  if (alumno.err) {
+    throw alumno.err
+  } else {
+    if (user.newPass !== user.confPass) throw "ERROR: Los campos de contraseña no coinciden"
 
-      let resComparar = await bcrypt.compare(user.newPass, res.password)
-      if (resComparar) throw "ERROR: La nueva contraseña y la actual son iguales"
+    let resComparar = await bcrypt.compare(user.newPass, alumno.res.password)
+    if (resComparar) throw "ERROR: La nueva contraseña y la actual son iguales"
 
-      var hashpass = await bcrypt.hash(user.newPass, 10);
-      await collection.findOneAndUpdate({ student: res.student }, { $set: { password: hashpass } });
-    })
-    .catch((err) => {
-      throw err
-    })
+    var hashpass = await bcrypt.hash(user.newPass, 10);
+    await alumno.collection.findOneAndUpdate({ student: alumno.res.student }, { $set: { password: hashpass } });
+  }
 }
 
 // DESACTIVAR USUARIOS
 const deactivateStudent = async (user) => {
-  await checkUserExistence(user)
-    .then(async ({ res, collection }) => {
-      if(res.state == "inactivo") throw "Usuario ya desactivado"
-      await collection.findOneAndUpdate({ student: res.student }, { $set: { state: "inactivo" } });
-    })
-    .catch((err) => {
-      throw err;
-    })
+  const alumno = await checkUserExistence(user)
+  if (alumno.err) {
+    throw alumno.err;
+  } else {
+    if (alumno.res.state == "inactivo") throw "Usuario ya desactivado"
+    await alumno.collection.findOneAndUpdate({ student: alumno.res.student }, { $set: { state: "inactivo" } });
+  }
 }
 
 module.exports = {

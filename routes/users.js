@@ -25,58 +25,68 @@ router.get("/editPass", isAuth, function (req, res, next) {
   else res.render("editPass", { title: "Editar Contraseña - ADMIN" })
 });
 
+// VISTA DESACTIVAR USUARIOS
 router.get("/deactivate", isAuth, function (req, res, next) {
   if (req.user.type == "student")
     res.redirect(`/dashboard?user=${req.user.student}`)
-  else res.render("desactivar", { title: "Desactiar Cuenta - ADMIN" })
+  else res.render("desactivar", { title: "Desactivar Cuenta - ADMIN" })
+});
+
+// MÉTODO DESACTIVAR USUARIOS
+router.get("/delete", async function (req, res) {
+    await deactivateStudent(req.query.user)
+      .then(() => {
+        console.log("Usuario Desactivado")
+        res.redirect("/users/deactivate?deac=1");
+      })
+      .catch((err) => {
+        res.redirect(`/users/deactivate?deac=2&err=${err}`);
+      })
+      .finally(() => {
+        client.close();
+      });
+  // }
 });
 
 // RUTAS POST -----------------------------------------------------------
 
 // DAR DE ALTA A UN USUARIO
 router.post("/alta", async function (req, res) {
-  await newStudent(req.body)
-    .then((result) => {
-      console.log(result)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-    .finally(() => {
-      res.redirect("/users");
-      client.close();
-    })
+  if (req.body.student_id == "" || req.body.pass == "") {
+    res.redirect("/users?newUs=1");
+  } else {
+    await newStudent(req.body)
+      .then((result) => {
+        console.log(result)
+        res.redirect("/users?newUs=2");
+      })
+      .catch((err) => {
+        console.log(err)
+        res.redirect(`/users?newUs=3&err=${err}`);
+      })
+      .finally(() => {
+        client.close();
+      })
+  }
 });
 
 // EDITAR CONTRASEÑA DE USUARIO
 router.post("/editPass", async function (req, res) {
-  await changePass(req.body)
-    .then(() => {
-      console.log("Contraseña Cambiada")
-      client.close();
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-    .finally(() => {
-      res.redirect("/users");
-    })
-
-});
-
-// DESACTIVAR USUARIOS
-router.post("/desactivar", async function (req, res) {
-  await deactivateStudent(req.body.student_id)
-    .then(() => {
-      console.log("Usuario Desactivado")
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-    .finally(() => {
-      client.close();
-      res.redirect("/users");
-    });
+  if (req.body.student_id == "" || req.body.pass == "") {
+    res.redirect("/users/editPass?edP=1");
+  } else {
+    await changePass(req.body)
+      .then(() => {
+        res.redirect("/users/editPass?edP=2");
+      })
+      .catch((err) => {
+        console.log(err)
+        res.redirect(`/users/editPass?edP=3&err=${err}`);
+      })
+      .finally(()=>{
+        client.close();
+      })
+  }
 });
 
 module.exports = router;

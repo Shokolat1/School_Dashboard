@@ -12,24 +12,22 @@ passport.use(new LocalStrategy({
   passwordField: "userPass",
 },
   async function (username, password, done) {
-    checkUserExistence(username)
-      .then(async (obj) => {
-        const match = await bcrypt.compare(password, obj.res.password);
+    const obj = await checkUserExistence(username)
+    if (obj.err) {
+      client.close()
+      return done(null, false);
+    } else {
+      const match = await bcrypt.compare(password, obj.res.password);
 
-        // CHECAR SI LA CONTRASEÑA EN EL FORMULARIO Y LA DB SON LAS MISMAS,
-        // Y SI EL USUARIO ESTÁ ACTIVO
-        if (match && obj.res.state == 'activo') {
-          return done(null, obj.res);
-        }
+      // CHECAR SI LA CONTRASEÑA EN EL FORMULARIO Y LA DB SON LAS MISMAS,
+      // Y SI EL USUARIO ESTÁ ACTIVO
+      if (match && obj.res.state == 'activo') {
+        return done(null, obj.res);
+      }
 
-        return done(null, false);
-      })
-      .catch(() => {
-        return done(null, false);
-      })
-      .finally(() => {
-        client.close()
-      })
+      client.close()
+      return done(null, false);
+    }
   }
 ));
 
@@ -78,8 +76,8 @@ router.get('/dashboard', isAuth, async function (req, res, next) {
           racha: obj.racha,
           resBecado: obj.resBecado,
           allAvgsArr: obj.allAvgsArr,
-          homework: obj.homework, 
-          quiz: obj.quiz, 
+          homework: obj.homework,
+          quiz: obj.quiz,
           exam: obj.exam
         });
       })
@@ -96,21 +94,21 @@ router.get('/dashboard', isAuth, async function (req, res, next) {
 router.get('/logout', async function (req, res, next) {
   req.logout(function (err) {
     if (err) { return next(err); }
-    res.redirect("/");
+    res.redirect("/?bye=1");
   });
 })
 
 // RUTAS POST ----------------------------------------------------------
 // INICIAR SESIÓN
 router.post("/login",
-  passport.authenticate("local", { failureRedirect: "/" }),
+  passport.authenticate("local", { failureRedirect: "/?errLI=1" }),
   function (req, res) {
     if (req.user.type === "admin") {
-      res.redirect("/users");
+      res.redirect("/users?hello=1");
     } else {
-      res.redirect(`/dashboard?user=${req.user.student}`);
+      res.redirect(`/dashboard?user=${req.user.student}&hello=2`);
     }
   }
 )
- 
+
 module.exports = router;

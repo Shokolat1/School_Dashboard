@@ -153,18 +153,6 @@ const mesesChart = new Chart(mesesCtx, {
   },
   options: {
     responsive: true,
-    scales: {
-      x: {
-        ticks: {
-          font: resizeUtils
-        },
-      },
-      y: {
-        ticks: {
-          font: resizeUtils
-        },
-      },
-    },
     plugins: {
       legend: {
         position: "top",
